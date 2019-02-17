@@ -54,7 +54,12 @@ RUN cd /home/php-7.1.26/ &&\
     --with-pdo-mysql \
     && make \
     && make install \
-    && cp php.ini-production /usr/local/php/etc/php.ini 
+    && cp php.ini-production /usr/local/php/etc/php.ini \
+    && cp /usr/local/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf \
+    && cp /usr/local/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf
+
+RUN sed -i 's/include=NONE\/etc\/php-fpm.d\/\*.conf/include=\/usr\/local\/etc\/php-fpm.d\/\*.conf/g' /usr/local/php/etc/php-fpm.conf \
+    && sed -i 's/nobody/www-data/g' /usr/local/php/etc/php-fpm.d/www.conf 
 
 ENV PATH=$PATH:/usr/local/php/bin
 
@@ -92,5 +97,7 @@ COPY --from=builder /usr/local/php /usr/local/php
 COPY --from=builder /usr/local/zookeeper /usr/local/zookeeper 
 
 ENV PATH=$PATH:/usr/local/php/bin 
+
+EXPOSE 9000
 
 CMD ["/usr/local/php/bin/php-fpm"]
