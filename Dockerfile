@@ -54,9 +54,9 @@ RUN cd /home/php-7.1.26/ &&\
     --with-pdo-mysql \
     && make \
     && make install \
-    && cp php.ini-production /usr/local/php/etc/php.ini \
-    && cp /usr/local/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf \
-    && cp /usr/local/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf
+    && cp /home/php-7.1.26/php.ini-production /usr/local/php/etc/php.ini \
+    && cp /home/php-7.1.26/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf \
+    && cp /home/php-7.1.26/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf
 
 RUN sed -i 's/include=NONE\/etc\/php-fpm.d\/\*.conf/include=\/usr\/local\/etc\/php-fpm.d\/\*.conf/g' /usr/local/php/etc/php-fpm.conf \
     && sed -i 's/nobody/www-data/g' /usr/local/php/etc/php-fpm.d/www.conf 
