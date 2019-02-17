@@ -9,6 +9,16 @@ ADD https://pecl.php.net/get/swoole-4.2.13.tgz /home/
 ADD http://apache.01link.hk/zookeeper/zookeeper-3.4.13/zookeeper-3.4.13.tar.gz /home/
 ADD https://pecl.php.net/get/zookeeper-0.6.3.tgz /home/
 
+WORKDIR /home/
+
+RUN tar -zxf /home/php-7.1.26.tar.gz -o /home/ \
+    && tar -zxf /home/redis-4.2.0.tgz -o /home/ \
+    && tar -zxf /home/mongodb-1.5.3.tgz -o /home/ \
+    && tar -zxf /home/swoole-4.2.13.tgz -o /home/ \
+    && tar -zxf /home/zookeeper-3.4.13.tar.gz -o /home/ \
+    && tar -zxf /home/zookeeper-0.6.3.tgz -o /home/ \
+    && ls -al /home/
+
 RUN apt-get update -y
 RUN apt-get install -y apt-utils gcc g++ autoconf make 
 RUN apt-get install -y libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev 
