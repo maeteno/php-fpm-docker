@@ -72,7 +72,8 @@ RUN cd /home/php-7.1.26/ &&\
 
 RUN sed -i 's/include=NONE\/etc\/php-fpm.d\/\*.conf/include=\/usr\/local\/php\/etc\/php-fpm.d\/\*.conf/g' /usr/local/php/etc/php-fpm.conf \
     && sed -i 's/;daemonize = yes/daemonize = no/g' /usr/local/php/etc/php-fpm.conf \
-    && sed -i 's/nobody/www-data/g' /usr/local/php/etc/php-fpm.d/www.conf 
+    && sed -i 's/nobody/www-data/g' /usr/local/php/etc/php-fpm.d/www.conf \
+    && echo "zend_extension=opcache.so" >> /usr/local/php/etc/php.ini
 
 ENV PATH=$PATH:/usr/local/php/bin:/usr/local/php/sbin
 
