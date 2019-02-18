@@ -66,7 +66,7 @@ RUN cd /home/php-7.2.15/ &&\
     --with-pdo-mysql \
     && make \
     && make install \
-    && cp /home/php-7.1.26/php.ini-production /usr/local/php/etc/php.ini \
+    && cp /home/php-7.2.26/php.ini-production /usr/local/php/etc/php.ini \
     && cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf \
     && cp /usr/local/php/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf
 
