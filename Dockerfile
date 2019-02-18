@@ -43,6 +43,7 @@ RUN cd /home/php-7.1.26/ &&\
     --enable-mysqlnd \
     --enable-sockets \
     --disable-cgi \
+    --disable-cli \
     --with-openssl \
     --with-zlib \
     --with-curl \
@@ -61,7 +62,7 @@ RUN cd /home/php-7.1.26/ &&\
 RUN sed -i 's/include=NONE\/etc\/php-fpm.d\/\*.conf/include=\/usr\/local\/etc\/php-fpm.d\/\*.conf/g' /usr/local/php/etc/php-fpm.conf \
     && sed -i 's/nobody/www-data/g' /usr/local/php/etc/php-fpm.d/www.conf 
 
-ENV PATH=$PATH:/usr/local/php/bin
+ENV PATH=$PATH:/usr/local/php/bin:/usr/local/php/sbin
 
 RUN cd /home/redis-4.2.0/ \
     && phpize && ./configure && make && make install \
@@ -100,4 +101,4 @@ ENV PATH=$PATH:/usr/local/php/bin
 
 EXPOSE 9000
 
-CMD ["/usr/local/php/bin/php-fpm"]
+CMD ["php-fpm"]
