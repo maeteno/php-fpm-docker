@@ -3,10 +3,13 @@ FROM ubuntu:16.04 as builder
 LABEL maintainer="Alan <ssisoo@live.cn>"
 
 RUN apt-get update -y
-RUN apt-get install -y apt-utils gcc g++ autoconf make 
-RUN apt-get install -y libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev 
+RUN apt-get install -y apt-utils gcc g++ autoconf make file bison\
+    libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev 
 RUN ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib
 
+# 以下下载链接失效可以到 https://github.com/maeteno/php-software-package 获取备份
+# re2c php 编译需要
+ADD https://nchc.dl.sourceforge.net/project/re2c/0.16/re2c-0.16.tar.gz /home/
 ADD https://github.com/maeteno/php-software-package/raw/master/php-7.1.26.tar.gz /home/
 ADD https://pecl.php.net/get/redis-4.2.0.tgz /home/
 ADD https://pecl.php.net/get/mongodb-1.5.3.tgz /home/
@@ -17,6 +20,7 @@ ADD https://pecl.php.net/get/zookeeper-0.6.3.tgz /home/
 WORKDIR /home/
 
 RUN cd /home/ \
+    && tar -zxf /home/re2c-0.16.tar.gz -C /home/ \
     && tar -zxf /home/php-7.1.26.tar.gz -C /home/ \
     && tar -zxf /home/redis-4.2.0.tgz -C /home/ \
     && tar -zxf /home/mongodb-1.5.3.tgz -C /home/ \
@@ -24,6 +28,11 @@ RUN cd /home/ \
     && tar -zxf /home/zookeeper-3.4.13.tar.gz -C /home/ \
     && tar -zxf /home/zookeeper-0.6.3.tgz -C /home/ \
     && ls -al /home/
+
+RUN cd /home/re2c-0.16/ \
+    && ./configure \
+    && make \
+    && make install 
 
 RUN cd /home/php-7.1.26/ &&\
     ./configure \
@@ -42,6 +51,8 @@ RUN cd /home/php-7.1.26/ &&\
     --enable-sysvshm \
     --enable-mysqlnd \
     --enable-sockets \
+    --without-pear \
+    --disable-phar \
     --disable-cgi \
     --disable-cli \
     --with-openssl \
@@ -60,6 +71,7 @@ RUN cd /home/php-7.1.26/ &&\
     && cp /usr/local/php/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf
 
 RUN sed -i 's/include=NONE\/etc\/php-fpm.d\/\*.conf/include=\/usr\/local\/php\/etc\/php-fpm.d\/\*.conf/g' /usr/local/php/etc/php-fpm.conf \
+    && sed -i 's/;daemonize = yes/daemonize = no/g' /usr/local/php/etc/php-fpm.conf \
     && sed -i 's/nobody/www-data/g' /usr/local/php/etc/php-fpm.d/www.conf 
 
 ENV PATH=$PATH:/usr/local/php/bin:/usr/local/php/sbin
@@ -89,6 +101,8 @@ RUN cd /home/zookeeper-0.6.3/ \
 # 运行阶段
 FROM ubuntu:16.04
 
+LABEL maintainer="Alan <ssisoo@live.cn>"
+
 RUN apt-get update -y \
     && apt-get install -y libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev \
     && ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib
@@ -97,7 +111,7 @@ RUN apt-get update -y \
 COPY --from=builder /usr/local/php /usr/local/php 
 COPY --from=builder /usr/local/zookeeper /usr/local/zookeeper 
 
-ENV PATH=$PATH:/usr/local/php/bin 
+ENV PATH=$PATH:/usr/local/php/bin:/usr/local/php/sbin
 
 EXPOSE 9000
 
