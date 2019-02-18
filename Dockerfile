@@ -2,17 +2,17 @@ FROM ubuntu:16.04 as builder
 
 LABEL maintainer="Alan <ssisoo@live.cn>"
 
+RUN apt-get update -y
+RUN apt-get install -y apt-utils gcc g++ autoconf make 
+RUN apt-get install -y libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev 
+RUN ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib
+
 ADD https://github.com/maeteno/php-software-package/raw/master/php-7.1.26.tar.gz /home/
 ADD https://pecl.php.net/get/redis-4.2.0.tgz /home/
 ADD https://pecl.php.net/get/mongodb-1.5.3.tgz /home/
 ADD https://pecl.php.net/get/swoole-4.2.13.tgz /home/
 ADD http://apache.01link.hk/zookeeper/zookeeper-3.4.13/zookeeper-3.4.13.tar.gz /home/
 ADD https://pecl.php.net/get/zookeeper-0.6.3.tgz /home/
-
-RUN apt-get update -y
-RUN apt-get install -y apt-utils gcc g++ autoconf make 
-RUN apt-get install -y libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev 
-RUN ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib
 
 WORKDIR /home/
 
@@ -55,9 +55,9 @@ RUN cd /home/php-7.1.26/ &&\
     --with-pdo-mysql \
     && make \
     && make install \
-    && cp php.ini-production /usr/local/php/etc/php.ini \
-    && cp /usr/local/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf \
-    && cp /usr/local/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf
+    && cp /home/php-7.1.26/php.ini-production /usr/local/php/etc/php.ini \
+    && cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf \
+    && cp /usr/local/php/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf
 
 RUN sed -i 's/include=NONE\/etc\/php-fpm.d\/\*.conf/include=\/usr\/local\/etc\/php-fpm.d\/\*.conf/g' /usr/local/php/etc/php-fpm.conf \
     && sed -i 's/nobody/www-data/g' /usr/local/php/etc/php-fpm.d/www.conf 
