@@ -10,7 +10,7 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib
 # 以下下载链接失效可以到 https://github.com/maeteno/php-software-package 获取备份
 # re2c php 编译需要
 ADD https://nchc.dl.sourceforge.net/project/re2c/0.16/re2c-0.16.tar.gz /home/
-ADD https://github.com/maeteno/php-software-package/raw/master/php-7.1.26.tar.gz /home/
+ADD http://hk1.php.net/get/php-7.2.15.tar.gz/from/this/mirror /home/
 ADD https://pecl.php.net/get/redis-4.2.0.tgz /home/
 ADD https://pecl.php.net/get/mongodb-1.5.3.tgz /home/
 ADD https://pecl.php.net/get/swoole-4.2.13.tgz /home/
@@ -21,7 +21,7 @@ WORKDIR /home/
 
 RUN cd /home/ \
     && tar -zxf /home/re2c-0.16.tar.gz -C /home/ \
-    && tar -zxf /home/php-7.1.26.tar.gz -C /home/ \
+    && tar -zxf /home/mirror -C /home/ \
     && tar -zxf /home/redis-4.2.0.tgz -C /home/ \
     && tar -zxf /home/mongodb-1.5.3.tgz -C /home/ \
     && tar -zxf /home/swoole-4.2.13.tgz -C /home/ \
@@ -34,7 +34,7 @@ RUN cd /home/re2c-0.16/ \
     && make \
     && make install 
 
-RUN cd /home/php-7.1.26/ &&\
+RUN cd /home/php-7.2.15/ &&\
     ./configure \
     --prefix=/usr/local/php \
     --with-config-file-path=/usr/local/php/etc \

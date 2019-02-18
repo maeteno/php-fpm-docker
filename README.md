@@ -1,6 +1,6 @@
 # PHP FPM Docker
 
-PHP-FPM 运行环境 版本 `7.1.26`
+PHP-FPM 运行环境 版本 `7.2.15`
 
 ## 扩展列表
 - bcmath
