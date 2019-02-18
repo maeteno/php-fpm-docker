@@ -59,7 +59,7 @@ RUN cd /home/php-7.1.26/ &&\
     && cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf \
     && cp /usr/local/php/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf
 
-RUN sed -i 's/include=NONE\/etc\/php-fpm.d\/\*.conf/include=\/usr\/local\/etc\/php-fpm.d\/\*.conf/g' /usr/local/php/etc/php-fpm.conf \
+RUN sed -i 's/include=NONE\/etc\/php-fpm.d\/\*.conf/include=\/usr\/local\/php\/etc\/php-fpm.d\/\*.conf/g' /usr/local/php/etc/php-fpm.conf \
     && sed -i 's/nobody/www-data/g' /usr/local/php/etc/php-fpm.d/www.conf 
 
 ENV PATH=$PATH:/usr/local/php/bin:/usr/local/php/sbin
