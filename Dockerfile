@@ -2,8 +2,8 @@ FROM ubuntu:16.04 as builder
 
 LABEL maintainer="Alan <ssisoo@live.cn>"
 
-ARG PHP_URL=http://hk1.php.net/get/php-7.2.15.tar.bz2/from/this/mirror
-ARG PHP_VERSION=php-2.1.5
+ARG PHP_URL=https://php.net/get/php-7.2.15.tar.gz/from/a/mirror
+ARG PHP_VERSION=php-7.2.15
 ARG PHP_PACKAGE=mirror
 ARG LIB_LIST="libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev libzip-dev libzip4"
 
@@ -109,7 +109,7 @@ FROM ubuntu:16.04
 LABEL maintainer="Alan <ssisoo@live.cn>"
 
 RUN apt-get update -y \
-    && apt-get install -y libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev \
+    && apt-get install -y libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev libzip4 \
     && ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib
 
 # 从编译阶段的中拷贝编译结果到当前镜像中
