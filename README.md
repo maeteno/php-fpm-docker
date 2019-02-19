@@ -1,6 +1,7 @@
 # PHP FPM Docker
 
-PHP-FPM 运行环境 版本 `7.2.15`
+PHP-FPM 运行环境 版本 `7.3.2`
+不支持 CLI
 
 ## 扩展列表
 - bcmath
