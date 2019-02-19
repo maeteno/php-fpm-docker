@@ -2,14 +2,14 @@ FROM ubuntu:16.04 as builder
 
 LABEL maintainer="Alan <ssisoo@live.cn>"
 
+RUN apt-get update -y
+RUN apt-get install -y gcc g++ autoconf make file bison curl git zip unzip \
+    libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev libzip-dev libzip4
+RUN ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib
+
 ARG PHP_URL=http://hk1.php.net/get/php-7.3.2.tar.gz/from/this/mirror
 ARG PHP_VERSION=php-7.3.2
 ARG PHP_PACKAGE=mirror
-ARG LIB_LIST="libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev libzip-dev libzip4"
-
-RUN apt-get update -y
-RUN apt-get install -y gcc g++ autoconf make file bison curl git zip unzip ${LIB_LIST}
-RUN ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib
 
 # 以下下载链接失效可以到 https://github.com/maeteno/php-software-package 获取备份
 # re2c php 编译需要
@@ -109,7 +109,7 @@ FROM ubuntu:16.04
 LABEL maintainer="Alan <ssisoo@live.cn>"
 
 RUN apt-get update -y \
-    && apt-get install -y libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev \
+    && apt-get install -y libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev libzip4 \
     && ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib
 
 # 从编译阶段的中拷贝编译结果到当前镜像中
