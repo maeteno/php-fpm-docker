@@ -2,8 +2,8 @@ FROM ubuntu:16.04 as builder
 
 LABEL maintainer="Alan <ssisoo@live.cn>"
 
-ARG PHP_URL=http://hk1.php.net/get/php-7.3.2.tar.gz/from/this/mirror
-ARG PHP_VERSION=php-7.3.2
+ARG PHP_URL=http://hk1.php.net/get/php-7.2.15.tar.bz2/from/this/mirror
+ARG PHP_VERSION=php-2.1.5
 ARG PHP_PACKAGE=mirror
 ARG LIB_LIST="libxml2-dev libssl-dev libbz2-dev libpng-dev libxslt1-dev libcurl4-openssl-dev libzip-dev libzip4"
 
